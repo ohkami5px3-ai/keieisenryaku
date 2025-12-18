@@ -72,6 +72,58 @@
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+	/* --- 10問達成ご褒美モーダルのスタイル --- */
+.reward-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* 背景を黒く透けさせる */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 最前面に表示 */
+}
+
+.reward-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* 金色の輝き */
+    animation: popIn 0.5s ease;
+}
+
+.reward-content h2 {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+.reward-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.reward-content button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
 </style>
 </head>
 <body>
@@ -114,6 +166,14 @@
     </div>
 </div>
 
+<div id="reward-modal" class="reward-modal" style="display: none;">
+    <div class="reward-content">
+        <h2>🎉 10問達成！お疲れ様！ 🎉</h2>
+        <img id="reward-img" src="" alt="ご褒美画像">
+        <button onclick="closeReward()">次の問題へ進む</button>
+    </div>
+</div>
+	
 <script>
     // ★★★ 推し設定エリア（ここを自由に編集してください！） ★★★
     const idolConfig = {
@@ -1376,47 +1436,76 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
         document.getElementById('next-btn').style.display = 'none';
     }
 
-    function checkAnswer(selectedIdx, correctIdx, btnElement) {
-        if (!isAnswering) return;
-        isAnswering = false;
+	// --- 変数の追加 ---
+    let sessionAnswerCount = 0; // セッション中に何問解いたかをカウント
 
-        const allBtns = document.querySelectorAll('.option-btn');
-        allBtns.forEach(btn => btn.classList.add('disabled'));
-
-        const qData = currentQuestions[currentIndex];
-        const resultTitle = document.getElementById('result-status');
-        const reactionImg = document.getElementById('reaction-image');
-
-        if (selectedIdx === correctIdx) {
-            btnElement.classList.add('correct');
-            resultTitle.textContent = "正解！";
-            resultTitle.style.color = "var(--correct)";
-            score++;
-            document.getElementById('score-text').textContent = `Score: ${score}`;
-            
-            // ★ランダムで正解画像を表示
-            reactionImg.style.backgroundImage = `url('${pickRandom(idolConfig.correct)}')`;
-            reactionImg.classList.add('show');
-        } else {
-            btnElement.classList.add('wrong');
-            allBtns[correctIdx].classList.add('correct');
-            resultTitle.textContent = "残念...";
-            resultTitle.style.color = "var(--wrong)";
-            
-            // ★ランダムで不正解画像を表示
-            reactionImg.style.backgroundImage = `url('${pickRandom(idolConfig.wrong)}')`;
-            reactionImg.classList.add('show');
-        }
-
-        document.getElementById('explanation-content').textContent = qData.exp;
-        document.getElementById('explanation').style.display = 'block';
-        document.getElementById('next-btn').style.display = 'block';
+    // 推し画像のリスト（ここに好きな画像のURLを入れてください）
+    const oshiImages = [
+        "https://ogre.natalie.mu/media/news/music/2025/1202/kikkoman_sukiyaki_meguro_1.jpg?imwidth=1280&imdensity=1", // 画像1
+        "https://ogre.natalie.mu/media/news/music/2025/1201/afternoontea_attakatumbler_Keyvisual.jpg?imwidth=1280&imdensity=1", // 画像2
+        "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474.jpg?imwidth=400&imdensity=1",  // 画像3
+        "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474_SP.jpg?imwidth=400&imdensity=1",  // 画像4
+		"https://ogre.natalie.mu/media/news/music/2025/1122/ATZ_3854.jpg?imwidth=1460&imdensity=1&impolicy=hq",  // 画像5
+		"https://ogre.natalie.mu/media/news/music/2025/1120/ATZ_3752.jpg?imwidth=400&imdensity=1",
+		"https://ogre.natalie.mu/media/news/music/2025/1104/DSC_0510.jpg?imwidth=1460&imdensity=1&impolicy=hq",
+		"https://ogre.natalie.mu/media/news/music/2025/1026/4s41_025_01.jpg?imwidth=1280&imdensity=1"
+		// どんどん追加OK！
+    ];
+	
+   // --- checkAnswer関数を修正 ---
+    function checkAnswer(selectedOption) {
+        const currentQ = allQuestions[currentQuestionIndex];
+        const resultContainer = document.getElementById('result-container');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const explanationText = document.getElementById('explanation-text');
         
-        setTimeout(() => {
-            document.getElementById('next-btn').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
+        // ▼▼▼ 修正箇所：解説エリアの画像表示コードを削除またはコメントアウト ▼▼▼
+        // const oshiImg = document.getElementById('oshi-img'); // ←この行はもう不要
+        // oshiImg.style.display = 'none'; // ←この行も不要
+
+        // 正誤判定
+        if (selectedOption === currentQ.a) {
+            feedbackTitle.textContent = "正解！🎉";
+            feedbackTitle.className = "correct";
+            // oshiImg.src = "正解画像のURL"; // ←削除
+        } else {
+            feedbackTitle.textContent = "残念...不正解 💦";
+            feedbackTitle.className = "wrong";
+            // oshiImg.src = "不正解画像のURL"; // ←削除
+        }
+        
+        // 解説表示
+        explanationText.innerText = currentQ.exp; // innerTextで改行を反映
+        resultContainer.style.display = 'block';
+        document.getElementById('question-container').style.display = 'none';
+
+        // ▼▼▼ 追加箇所：カウンター処理 ▼▼▼
+        sessionAnswerCount++; // 解答数を+1
+        
+        // 10問ごとのチェック (10, 20, 30...)
+        if (sessionAnswerCount > 0 && sessionAnswerCount % 10 === 0) {
+            // 少し遅らせてご褒美モーダルを表示（解説を一瞬見たあとに出す演出）
+            setTimeout(() => {
+                showReward();
+            }, 800); 
+        }
     }
 
+    // --- ▼▼▼ 追加：ご褒美モーダル関連の関数 ▼▼▼ ---
+    function showReward() {
+        const modal = document.getElementById('reward-modal');
+        const img = document.getElementById('reward-img');
+        
+        // ランダムに画像を選ぶ
+        const randomImg = oshiImages[Math.floor(Math.random() * oshiImages.length)];
+        img.src = randomImg;
+        
+        modal.style.display = 'flex'; // モーダルを表示
+    }
+
+    function closeReward() {
+        document.getElementById('reward-modal').style.display = 'none';
+    }
     function nextQuestion() {
         currentIndex++;
         if (currentIndex < currentQuestions.length) {
@@ -1467,4 +1556,5 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
 
 </body>
 </html>
+
 
