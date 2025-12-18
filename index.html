@@ -9,7 +9,7 @@
 <style>
     /* ▼▼▼ ここで推しのイメージカラーを設定できます ▼▼▼ */
     :root { 
-        --primary: #ff4081; /* ピンク系。青なら #2563eb, 黄なら #ca8a04 */
+        --primary: #ff4081; /* ピンク系 */
         --correct: #16a34a; 
         --wrong: #dc2626; 
         --bg: #f3f4f6; 
@@ -73,57 +73,52 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-	/* --- 10問達成ご褒美モーダルのスタイル --- */
-.reward-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* 背景を黒く透けさせる */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* 最前面に表示 */
-}
+    /* --- 10問達成ご褒美モーダルのスタイル --- */
+    .reward-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
 
-.reward-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* 金色の輝き */
-    animation: popIn 0.5s ease;
-}
+    .reward-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        animation: popIn 0.5s ease;
+    }
 
-.reward-content h2 {
-    color: #ff6b6b;
-    margin-bottom: 15px;
-}
+    .reward-content h2 {
+        color: #ff6b6b;
+        margin-bottom: 15px;
+    }
 
-.reward-content img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
+    .reward-content img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
 
-.reward-content button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-@keyframes popIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
+    .reward-content button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
@@ -173,41 +168,20 @@
         <button onclick="closeReward()">次の問題へ進む</button>
     </div>
 </div>
-	
+    
 <script>
-    // ★★★ 推し設定エリア（ここを自由に編集してください！） ★★★
+    // ★★★ 推し設定エリア ★★★
     const idolConfig = {
-        // 背景画像（全体）
         background: "https://高画質ジャケット画像.com/blog/wp-content/uploads/2023/12/JWCD-63868-2048x1818.jpg",
-        
-        // 起動時の画像（1枚）
         start: "https://ogre.natalie.mu/media/news/music/2025/1103/1109_meguro01.jpg?imwidth=1280&imdensity=1",
-
-        // 【正解時の画像（ランダム）】 ※カンマ区切りで何枚でも追加OK
-        correct: [
-            "https://高画質ジャケット画像.com/blog/wp-content/uploads/2025/01/JWCD-98651-2048x1818.jpg", // 笑顔1
-            // "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474.jpg?imwidth=1460&imdensity=1&impolicy=hq", // ピース
-            // "https://ogre.natalie.mu/media/news/music/2025/1116/251111_Zoff_suncut_WholeBody_JP_panel.jpg?imwidth=1460&imdensity=1&impolicy=hq", // ウインク
-            "https://stat.ameba.jp/user_images/20220802/15/blue1130v6/ab/67/p/o1064051415155109751.png?caw=800", // 拍手
-            "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/46/ec/p/o0857031415210130876.png?caw=800"  // 最高！
-        ],
-
-        // 【不正解時の画像（ランダム）】
-        wrong: [
-            "/wrong/me4.jpg", // 応援
-            "https://ogre.natalie.mu/media/news/music/2025/1116/202511_Zoff_ultra_banner_JP_1105_2400x960.jpg?imwidth=1460&imdensity=1&impolicy=hq", // 困り顔
-            "https://stat.ameba.jp/user_images/20220802/15/blue1130v6/17/36/p/o0945033115155109745.png?caw=800", // どんまい
-           // "https://ogre.natalie.mu/media/news/music/2025/1104/DSC_0510.jpg?imwidth=1460&imdensity=1&impolicy=hq", // 次があるよ
-            "https://stat.ameba.jp/user_images/20220802/15/blue1130v6/c3/d5/p/o1080041815155109740.png?caw=800"  // 見つめる
-        ],
-
-        // 【結果発表の画像（5段階）】
+        
+        // 結果発表の画像（5段階）
         result: {
-            rank5: "https://高画質ジャケット画像.com/blog/wp-content/uploads/2023/12/JWCD-63800.jpg", // 95-100% (神)
-            rank4: "https://高画質ジャケット画像.com/blog/wp-content/uploads/2019/12/snow-man.jpg", // 85-95% (大好き)
-            rank3: "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/29/23/p/o1080038615210130880.png?caw=800", // 70-85% (すごい)
-            rank2: "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/e5/8e/p/o1080045815210130908.png?caw=800", // 50-70% (頑張った)
-            rank1: "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/74/89/p/o0845025315210130918.png?caw=800"  // 50%以下 (喝を入れる)
+            rank5: "https://高画質ジャケット画像.com/blog/wp-content/uploads/2023/12/JWCD-63800.jpg",
+            rank4: "https://高画質ジャケット画像.com/blog/wp-content/uploads/2019/12/snow-man.jpg",
+            rank3: "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/29/23/p/o1080038615210130880.png?caw=800",
+            rank2: "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/e5/8e/p/o1080045815210130908.png?caw=800",
+            rank1: "https://stat.ameba.jp/user_images/20221130/13/blue1130v6/74/89/p/o0845025315210130918.png?caw=800"
         }
     };
     
@@ -215,9 +189,9 @@
     document.body.style.backgroundImage = `url('${idolConfig.background}')`;
     document.getElementById('start-image').style.backgroundImage = `url('${idolConfig.start}')`;
 
-    // ▼▼▼ 問題データ（ここに全35問のデータを貼り付けてください！） ▼▼▼
+    // ▼▼▼ 問題データ（ここに問題を追加してください） ▼▼▼
     const allQuestions = [
-       {
+  {
             q: `【経営戦略の定義と階層】
 経営戦略に関する記述として、最も適切なものはどれか？
 
@@ -1363,23 +1337,31 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
         q: "【問題40 トランスナショナル企業】\nバートレット＆ゴシャールのトランスナショナル企業について、不適切なものはどれか？\n\n1. 組織と情報の分配は「統合ネットワーク型」である。\n2. マルチ的な柔軟性を身につけて適応性を開発する。\n3. 権限が広範に機能するマトリックス組織のような形態を模索する。\n4. 本社と子会社双方の情報を蓄積・活用して問題解決を図る。\n5. 目指すべき方向は、世界規模による中央集約経営でコスト優位を築くことである。",
         a: 5,
         exp: "正解：5（これはグローバル戦略）\n「中央集約によるコスト優位」を目指すのは**「グローバル戦略」**（日本企業の典型）の特徴です。トランスナショナル戦略は、コスト優位（効率）と現地適応（柔軟性）、そして世界的な学習（イノベーション）の3つを同時に追求する、より高度なモデルです。"
-    },		
+    },				
+       // ... ここに他の問題データをすべて貼り付けてください ...
     ];
-    // ※動作確認用（本番時は消してください）
-    //if(allQuestions.length === 0) {
-    //    allQuestions.push({ q: "【テスト】推し画像は正しく設定されましたか？", a: 1, exp: "正解ならランダムで推しが褒めてくれます！" });
-    //}
 
     let currentQuestions = [];
     let currentIndex = 0;
     let score = 0;
-    let isAnswering = false;
+    let isAnswering = true; // 回答可能かどうか
 
-    // 配列からランダムに1つ選ぶ関数
-    function pickRandom(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    }
+    // 変数の追加
+    let sessionAnswerCount = 0; // セッション中に何問解いたかをカウント
 
+    // 推し画像のリスト（10問ごとのご褒美）
+    const oshiImages = [
+        "https://ogre.natalie.mu/media/news/music/2025/1202/kikkoman_sukiyaki_meguro_1.jpg?imwidth=1280&imdensity=1",
+        "https://ogre.natalie.mu/media/news/music/2025/1201/afternoontea_attakatumbler_Keyvisual.jpg?imwidth=1280&imdensity=1",
+        "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474.jpg?imwidth=400&imdensity=1",
+        "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474_SP.jpg?imwidth=400&imdensity=1",
+        "https://ogre.natalie.mu/media/news/music/2025/1122/ATZ_3854.jpg?imwidth=1460&imdensity=1&impolicy=hq",
+        "https://ogre.natalie.mu/media/news/music/2025/1120/ATZ_3752.jpg?imwidth=400&imdensity=1",
+        "https://ogre.natalie.mu/media/news/music/2025/1104/DSC_0510.jpg?imwidth=1460&imdensity=1&impolicy=hq",
+        "https://ogre.natalie.mu/media/news/music/2025/1026/4s41_025_01.jpg?imwidth=1280&imdensity=1"
+    ];
+
+    // 配列操作関数
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -1388,21 +1370,36 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
         return array;
     }
 
+    // 問題文のパース（テキスト形式への対応）
     function parseQuestion(qData) {
-        const parts = qData.q.split(/\n\n1\./); 
-        const questionText = parts[0];
-        let options = ["選択肢1", "選択肢2", "選択肢3", "選択肢4"];
-        if (parts.length > 1) {
-            const optionsText = "1." + parts[1];
-            options = optionsText.split(/\n/).map(o => o.replace(/^\d+\.\s*/, '').trim()).filter(o => o);
+        // もしすでに数値のaなら、indexに直す(1始まり->0始まり)
+        let ansIdx = (typeof qData.a === 'number') ? qData.a - 1 : parseInt(qData.a) - 1;
+
+        // 改行で選択肢が分かれている形式の場合の処理
+        // (JSON形式で記述されている場合はそのまま利用)
+        let options = ["1", "2", "3", "4", "5"]; // デフォルト
+        let text = qData.q;
+
+        // 問題文中に選択肢が含まれている場合の簡易パース（これまでの形式対応）
+        if(qData.q.includes("1.")){
+             const parts = qData.q.split(/\n\n1\./); 
+             if(parts.length > 1){
+                 text = parts[0];
+                 const optionsText = "1." + parts[1];
+                 const tempOpts = optionsText.split(/\n/).map(o => o.replace(/^\d+\.\s*/, '').trim()).filter(o => o);
+                 if(tempOpts.length >= 2) options = tempOpts;
+             }
         }
-        return { text: questionText, options: options, answerIdx: qData.a - 1, exp: qData.exp };
+        
+        return { text: text, options: options, answerIdx: ansIdx, exp: qData.exp };
     }
 
     function startQuiz() {
+        if(allQuestions.length === 0) { alert("問題データがありません！"); return; }
         currentQuestions = shuffleArray([...allQuestions]);
         currentIndex = 0;
         score = 0;
+        sessionAnswerCount = 0;
         document.getElementById('start-screen').style.display = 'none';
         document.getElementById('result-screen').style.display = 'none';
         document.getElementById('quiz-screen').style.display = 'flex';
@@ -1418,9 +1415,6 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
         document.getElementById('score-text').textContent = `Score: ${score}`;
         document.getElementById('question-text').textContent = parsed.text;
         
-        const reactionImg = document.getElementById('reaction-image');
-        reactionImg.classList.remove('show');
-        
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.innerHTML = '';
 
@@ -1428,84 +1422,77 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.textContent = optText;
+            // 重要：クリック時に正解番号(parsed.answerIdx)と、選んだ番号(i)を渡す
             btn.onclick = () => checkAnswer(i, parsed.answerIdx, btn);
             optionsContainer.appendChild(btn);
         });
 
+        // 解説エリアと「次へ」ボタンを隠す
         document.getElementById('explanation').style.display = 'none';
         document.getElementById('next-btn').style.display = 'none';
     }
 
-	// --- 変数の追加 ---
-    let sessionAnswerCount = 0; // セッション中に何問解いたかをカウント
+    // --- 修正版 checkAnswer ---
+    function checkAnswer(selectedIdx, correctIdx, btnElement) {
+        if (!isAnswering) return; // 連打防止
+        isAnswering = false;
 
-    // 推し画像のリスト（ここに好きな画像のURLを入れてください）
-    const oshiImages = [
-        "https://ogre.natalie.mu/media/news/music/2025/1202/kikkoman_sukiyaki_meguro_1.jpg?imwidth=1280&imdensity=1", // 画像1
-        "https://ogre.natalie.mu/media/news/music/2025/1201/afternoontea_attakatumbler_Keyvisual.jpg?imwidth=1280&imdensity=1", // 画像2
-        "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474.jpg?imwidth=400&imdensity=1",  // 画像3
-        "https://ogre.natalie.mu/media/news/music/2025/1124/anan2474_SP.jpg?imwidth=400&imdensity=1",  // 画像4
-		"https://ogre.natalie.mu/media/news/music/2025/1122/ATZ_3854.jpg?imwidth=1460&imdensity=1&impolicy=hq",  // 画像5
-		"https://ogre.natalie.mu/media/news/music/2025/1120/ATZ_3752.jpg?imwidth=400&imdensity=1",
-		"https://ogre.natalie.mu/media/news/music/2025/1104/DSC_0510.jpg?imwidth=1460&imdensity=1&impolicy=hq",
-		"https://ogre.natalie.mu/media/news/music/2025/1026/4s41_025_01.jpg?imwidth=1280&imdensity=1"
-		// どんどん追加OK！
-    ];
-	
-   // --- checkAnswer関数を修正 ---
-    function checkAnswer(selectedOption) {
-        const currentQ = allQuestions[currentQuestionIndex];
-        const resultContainer = document.getElementById('result-container');
-        const feedbackTitle = document.getElementById('feedback-title');
-        const explanationText = document.getElementById('explanation-text');
+        const statusText = document.getElementById('result-status');
+        const explanationText = document.getElementById('explanation-content');
+        const explanationArea = document.getElementById('explanation');
+        const nextBtn = document.getElementById('next-btn');
         
-        // ▼▼▼ 修正箇所：解説エリアの画像表示コードを削除またはコメントアウト ▼▼▼
-        // const oshiImg = document.getElementById('oshi-img'); // ←この行はもう不要
-        // oshiImg.style.display = 'none'; // ←この行も不要
-
         // 正誤判定
-        if (selectedOption === currentQ.a) {
-            feedbackTitle.textContent = "正解！🎉";
-            feedbackTitle.className = "correct";
-            // oshiImg.src = "正解画像のURL"; // ←削除
+        if (selectedIdx === correctIdx) {
+            statusText.textContent = "正解！🎉";
+            statusText.style.color = "var(--correct)";
+            btnElement.classList.add('correct');
+            score++; // スコア加算
+            document.getElementById('score-text').textContent = `Score: ${score}`;
         } else {
-            feedbackTitle.textContent = "残念...不正解 💦";
-            feedbackTitle.className = "wrong";
-            // oshiImg.src = "不正解画像のURL"; // ←削除
+            statusText.textContent = "残念...不正解 💦";
+            statusText.style.color = "var(--wrong)";
+            btnElement.classList.add('wrong');
+            
+            // 正解のボタンを強調表示
+            const allBtns = document.querySelectorAll('.option-btn');
+            if(allBtns[correctIdx]) {
+                allBtns[correctIdx].classList.add('correct');
+            }
         }
         
-        // 解説表示
-        explanationText.innerText = currentQ.exp; // innerTextで改行を反映
-        resultContainer.style.display = 'block';
-        document.getElementById('question-container').style.display = 'none';
+        // すべてのボタンを無効化
+        const allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(btn => btn.classList.add('disabled'));
 
-        // ▼▼▼ 追加箇所：カウンター処理 ▼▼▼
-        sessionAnswerCount++; // 解答数を+1
-        
-        // 10問ごとのチェック (10, 20, 30...)
+        // 解説表示
+        const currentQ = currentQuestions[currentIndex];
+        explanationText.innerText = currentQ.exp; 
+        explanationArea.style.display = 'block';
+        nextBtn.style.display = 'block'; // 次へボタンを表示
+
+        // 10問ごとのご褒美ロジック
+        sessionAnswerCount++;
         if (sessionAnswerCount > 0 && sessionAnswerCount % 10 === 0) {
-            // 少し遅らせてご褒美モーダルを表示（解説を一瞬見たあとに出す演出）
             setTimeout(() => {
                 showReward();
             }, 800); 
         }
     }
 
-    // --- ▼▼▼ 追加：ご褒美モーダル関連の関数 ▼▼▼ ---
+    // ご褒美モーダル関連
     function showReward() {
         const modal = document.getElementById('reward-modal');
         const img = document.getElementById('reward-img');
-        
-        // ランダムに画像を選ぶ
         const randomImg = oshiImages[Math.floor(Math.random() * oshiImages.length)];
         img.src = randomImg;
-        
-        modal.style.display = 'flex'; // モーダルを表示
+        modal.style.display = 'flex';
     }
 
     function closeReward() {
         document.getElementById('reward-modal').style.display = 'none';
     }
+
     function nextQuestion() {
         currentIndex++;
         if (currentIndex < currentQuestions.length) {
@@ -1526,10 +1513,8 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
         const rankTitle = document.getElementById('rank-title');
         const resultImg = document.getElementById('result-image');
         
-        // 正解率の計算
         const percent = (score / currentQuestions.length) * 100;
         
-        // ★5段階評価ロジック
         if (percent >= 95) {
             rankTitle.textContent = "Rank SS : 神レベル！";
             feedback.textContent = "完璧です！世界一かっこいい！";
@@ -1556,5 +1541,3 @@ e. 企業の主たる目的は利潤の追求であるが、現代において�
 
 </body>
 </html>
-
-
